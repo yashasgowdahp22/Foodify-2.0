@@ -7,6 +7,14 @@ public class RestaurantResponseDTO {
     private String contactNumber;
     private String email;
     private String description;
+    private boolean open;
+    private String imageUrl;
+    private Long ownerId;
+    private String ownerName;
+    private String ownerEmail;
+
+    public RestaurantResponseDTO() {
+    }
 
     public RestaurantResponseDTO(Long id, String restaurantName, String address, String contactNumber, String email, String description) {
         this.id = id;
@@ -15,6 +23,23 @@ public class RestaurantResponseDTO {
         this.contactNumber = contactNumber;
         this.email = email;
         this.description = description;
+        this.open = true;
+    }
+
+    public RestaurantResponseDTO(Long id, String restaurantName, String address, String contactNumber,
+                                 String email, String description, boolean open, String imageUrl,
+                                 Long ownerId, String ownerName, String ownerEmail) {
+        this.id = id;
+        this.restaurantName = restaurantName;
+        this.address = address;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.description = description;
+        this.open = open;
+        this.imageUrl = imageUrl;
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.ownerEmail = ownerEmail;
     }
 
     // Getters and Setters
@@ -30,4 +55,14 @@ public class RestaurantResponseDTO {
     public void setEmail(String email) { this.email = email; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+    public boolean isOpen() { return open; }
+    public void setOpen(boolean open) { this.open = open; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public Long getOwnerId() { return ownerId; }
+    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
+    public String getOwnerName() { return ownerName; }
+    public void setOwnerName(String ownerName) { this.ownerName = ownerName; }
+    public String getOwnerEmail() { return ownerEmail; }
+    public void setOwnerEmail(String ownerEmail) { this.ownerEmail = ownerEmail; }
 }

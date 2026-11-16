@@ -25,7 +25,7 @@ public class MenuItem {
     private BigDecimal price;
     private String category;
     private String imageUrl;
-    private boolean available;
+    private boolean available = true;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")

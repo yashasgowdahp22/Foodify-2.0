@@ -25,6 +25,10 @@ public class Delivery {
     private LocalDateTime deliveredAt;
     private String trackingNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "delivery_partner_id")
+    private Customer deliveryPartner;
+
     @OneToOne(mappedBy = "delivery")
     @JsonIgnore
     private Order order;

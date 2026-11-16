@@ -45,6 +45,10 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
     @OneToMany(mappedBy = "order",cascade=CascadeType.ALL,orphanRemoval=true)
     private List<OrderItem> orderItems=new ArrayList<>();
 

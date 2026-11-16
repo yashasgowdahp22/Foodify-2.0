@@ -25,7 +25,9 @@ public class RestaurantRequestDTO {
     private String email;
 	
     private String description;
-    
+    private boolean open = true;
+    private String imageUrl;
+    private String ownerEmail;
     
 	public String getRestaurantName() {
 		return restaurantName;
@@ -57,8 +59,22 @@ public class RestaurantRequestDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-    
-    
-    
-
+	public boolean isOpen() {
+		return open;
+	}
+	public void setOpen(boolean open) {
+		this.open = open;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getOwnerEmail() {
+		return ownerEmail;
+	}
+	public void setOwnerEmail(String ownerEmail) {
+		this.ownerEmail = ownerEmail;
+	}
 }

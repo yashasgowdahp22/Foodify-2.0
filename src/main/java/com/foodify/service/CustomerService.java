@@ -7,6 +7,12 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.foodify.dto.ChangePasswordRequest;
+import com.foodify.dto.CreateUserRequest;
+import com.foodify.dto.UserResponseDTO;
+import com.foodify.exception.BadRequestException;
+import com.foodify.exception.ConflictException;
+import com.foodify.exception.ResourceNotFoundException;
 import com.foodify.model.Customer;
 import com.foodify.repository.CustomerRepository;
 
@@ -28,11 +34,11 @@ public class CustomerService {
         return customerRepository.findByEmail(email);
     }
 
-    // Customer Registration
+    // Customer Registration (always assigns CUSTOMER role)
     public void addCustomer(Customer customer) {
 
         if (customerRepository.existsByEmail(customer.getEmail())) {
-            throw new IllegalArgumentException("Email already registered");
+            throw new ConflictException("Email already registered");
         }
 
         customer.setPassword(
@@ -40,6 +46,51 @@ public class CustomerService {
 
         customer.setRole("CUSTOMER");
 
+        customerRepository.save(customer);
+    }
+
+    // Admin creates user with a specific role (CUSTOMER, ADMIN, RESTAURANT, DELIVERY)
+    public UserResponseDTO createUserWithRole(CreateUserRequest request) {
+
+        if (customerRepository.existsByEmail(request.getEmail())) {
+            throw new ConflictException("Email already registered");
+        }
+
+        String normalizedRole = request.getRole().trim().toUpperCase();
+        List<String> allowedRoles = List.of("CUSTOMER", "ADMIN", "RESTAURANT", "DELIVERY");
+
+        if (!allowedRoles.contains(normalizedRole)) {
+            throw new BadRequestException("Invalid role. Allowed roles: CUSTOMER, ADMIN, RESTAURANT, DELIVERY");
+        }
+
+        Customer user = new Customer();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setAddress(request.getAddress());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(normalizedRole);
+
+        Customer savedUser = customerRepository.save(user);
+
+        return mapToUserResponseDTO(savedUser);
+    }
+
+    public UserResponseDTO getUserProfileByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+
+        return mapToUserResponseDTO(customer);
+    }
+
+    public void changePassword(String email, ChangePasswordRequest request) {
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), customer.getPassword())) {
+            throw new BadRequestException("Current password is incorrect");
+        }
+
+        customer.setPassword(passwordEncoder.encode(request.getNewPassword()));
         customerRepository.save(customer);
     }
 
@@ -67,7 +118,22 @@ public class CustomerService {
 
         return "Customer updated successfully";
     }
+
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private UserResponseDTO mapToUserResponseDTO(Customer customer) {
+        String role = customer.getRole();
+        if (role == null || role.isBlank()) {
+            role = "CUSTOMER";
+        }
+        return new UserResponseDTO(
+                customer.getId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getAddress(),
+                role.toUpperCase()
+        );
     }
 }

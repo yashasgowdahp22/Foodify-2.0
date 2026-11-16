@@ -12,4 +12,5 @@ public interface CartRepository extends JpaRepository<Cart,Long>{
 
 //	Cart findByCustomerId(Long customerId);
 	Optional<Cart> findByCustomerId(Long customerId);
+	Optional<Cart> findByCustomerEmail(String email);
 }
