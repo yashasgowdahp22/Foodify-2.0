@@ -158,6 +158,36 @@ Frontend runs on:
 http://localhost:5173
 ```
 
+## Application Screenshots
+
+### Home Page
+
+![Foodify Home](Screenshot%202026-11-16%20134504.png)
+
+### Restaurant Menu
+
+![Restaurant Menu](Screenshot%202026-11-16%20134617.png)
+
+### Restaurant Browsing
+
+![Restaurant Browsing](Screenshot%202026-11-16%20134639.png)
+
+### Shopping Cart
+
+![Shopping Cart](Screenshot%202026-11-16%20134653.png)
+
+### Checkout
+
+![Checkout](Screenshot%202026-11-16%20134703.png)
+
+### Order History
+
+![Order History](Screenshot%202026-11-16%20134726.png)
+
+### Order Details
+
+![Order Details](Screenshot%202026-11-16%20134736.png)
+
 ## Author
 
 **Yashas Gowda H.P.**
